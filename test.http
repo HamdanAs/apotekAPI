@@ -1,0 +1,26 @@
+GET http://localhost:4567/api/med/ HTTP/1.1
+
+###
+GET http://localhost:4567/api/med/28 HTTP/1.1
+
+###
+POST http://localhost:4567/api/med/add HTTP/1.1
+
+Content-Type: "application/json"
+{
+    "name": "Dexa",
+    "description": "obat panas",
+    "basePrice": 4000,
+    "price": 5000
+}
+
+###
+PATCH http://localhost:4567/api/med/28/update HTTP/1.1
+
+Content-Type: "application/json"
+{
+    "name": "Dexa",
+    "description": "obat panas",
+    "basePrice": 4000,
+    "price": 5000
+}
