@@ -5,14 +5,28 @@
  */
 package com.hamdanas.models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  *
  * @author hamdan
  */
+
+@SuppressWarnings("serial")
 public class PurchaseDetail {
     private Integer id;
+
+    @Expose
+    @SerializedName("med_id")
     private Integer medId;
+
+    @Expose
+    @SerializedName("qty")
     private Integer qty;
+
+    @Expose
+    @SerializedName("purchase_id")
     private Integer purchaseId;
 
     public Integer getId() {
