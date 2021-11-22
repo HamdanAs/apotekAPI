@@ -9,98 +9,91 @@ import com.google.gson.Gson;
 import com.hamdanas.dao.MedDao;
 import com.hamdanas.dao.interfaces.MedImp;
 import com.hamdanas.models.Med;
+import com.hamdanas.utilities.CommonUtils;
 import com.hamdanas.utilities.Table;
+
+import org.eclipse.jetty.http.HttpStatus;
+
 import java.util.List;
+import com.hamdanas.response.Response;
 
 import spark.Request;
-import spark.Response;
+import static spark.Spark.*;
 
 /**
  *
  * @author hamdan
  */
-public class MedController{
+public class MedController extends BaseController{
     MedImp medImp;
     List<Med> lm;
     Table table;
     Gson gson;
     
-    public MedController(){
+    public MedController(final Gson jsonConverter){
+        super(jsonConverter);
         medImp = new MedDao();
         lm = medImp.all();
         gson = new Gson();
+        initializeController(jsonConverter);
+    }
+
+    public void initializeController(final Gson jsonConverter){
+        get("/med", (req, res) -> {
+            return getAll();
+        }, CommonUtils.getJsonTransformer());
+
+        get("/med/:id", (req, res) -> {
+            return find(req);
+        }, CommonUtils.getJsonTransformer());
+
+        post("/med", (req, res) -> {
+            return insert(jsonConverter, req, res);
+        }, CommonUtils.getJsonTransformer());
+
+        put("/med/:id", (req, res) -> {
+            return update(jsonConverter, req, res);
+        }, CommonUtils.getJsonTransformer());
+
+        delete("/med/:id", (req, res) -> {
+            return deleteById(req, res);
+        }, CommonUtils.getJsonTransformer());
     }
     
-    public String getAll(Response response){
-        response.type("application/json");
-
-        lm = medImp.all();
-        return gson.toJson(lm);
-        
+    public Response getAll(){
+        return new Response(lm);
     }
 
-    private int toInt(String s){
-        return Integer.parseInt(s);
+    public Response find(Request request){
+        int id = Integer.parseInt(request.params(":id"));
+
+        return new Response(medImp.find(id));
     }
     
-    public String insert(Request request, Response response){
-        return request.queryParams("basePrice");
-        
-        // response.type("application/json");
+    public Response insert(final Gson jsonConverter, Request request, spark.Response res){
 
-        // Med m = new Med();
-        // m.setName(request.queryParams("name"));
-        // m.setDesctription(request.queryParams("description"));
-        // m.setBasePrice(toInt(request.queryParams("basePrice")));
-        // m.setPrice(toInt(request.queryParams("price")));
+        String payload = request.body();
+        Med medToAdd = jsonConverter.fromJson(payload, Med.class);
+        medImp.insert(medToAdd);
 
-        // lm = medImp.actualFind(m.getName());
-        
-        // if(lm.isEmpty()){
-        //     medImp.insert(m);
-
-        //     return "Data tersimpan!";
-        // } else {
-        //     return "Nama obat sudah ada didalam database!";
-        // }
-        
+        res.status(HttpStatus.CREATED_201);
+        return new Response(medToAdd);
     }
     
-    public String update(Request request, Response response){
-        response.type("application/json");
+    public Response update(final Gson jsonConverter, Request request, spark.Response res){
+        
+        String payload = request.body();
+        Med medToUpdate = jsonConverter.fromJson(payload, Med.class);
+        medImp.update(medToUpdate);
 
-        Med m = new Med();
-        m.setName(request.queryParams("name"));
-        m.setDesctription(request.queryParams("description"));
-        m.setBasePrice(toInt(request.queryParams("basePrice")));
-        m.setPrice(toInt(request.queryParams("price")));
-
-        medImp.update(m);
-
-        return "Data tersimpan!";
+        return new Response(medToUpdate);
     }
     
-    public String delete(Request request, Response response){
-        response.type("application/json");
+    public Response deleteById(Request request, spark.Response response){
 
         int id = Integer.parseInt(request.params(":id"));
         medImp.delete(id);
 
-        return "Data berhasil dihapus!";
-    }
-    
-    public String find(Request request, Response response){
-        response.type("application/json");
-
-        int id = Integer.parseInt(request.params(":id"));
-
-        lm = medImp.find(id);
-
-        if(lm.isEmpty()){
-            response.status(404);
-            return "Data tidak ditemukan!";
-        } else {
-            return gson.toJson(lm);
-        }
+        return new Response(0, "");
     }
 }

@@ -5,16 +5,39 @@
  */
 package com.hamdanas.models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  *
  * @author hamdan
  */
+
+ @SuppressWarnings("serial")
 public class Med {
+
+    @Expose
+    @SerializedName("id")
     private int Id;
+
+    @Expose
+    @SerializedName("name")
     private String name;
+
+    @Expose
+    @SerializedName("description")
     private String desctription;
+
+    @Expose
+    @SerializedName("base_price")
     private int basePrice;
+
+    @Expose
+    @SerializedName("price")
     private int price;
+
+    @Expose
+    @SerializedName("stock")
     private int stock;
 
     public int getId() {
