@@ -6,7 +6,6 @@
 package com.hamdanas.controllers;
 
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 import com.hamdanas.dao.InvoiceDao;
 import com.hamdanas.dao.MedDao;
 import com.hamdanas.dao.PurchDetailDao;

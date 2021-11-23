@@ -17,6 +17,6 @@ public interface SupplierImp {
     public void update(Supplier m);
     public void delete(int id);
     public List<Supplier> all();
-    public List<Supplier> find(String name);    
+    public List<Supplier> find(int id);    
     public List<Supplier> actualFind(String name);
 }

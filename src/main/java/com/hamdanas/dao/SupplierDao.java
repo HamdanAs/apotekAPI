@@ -28,7 +28,7 @@ public class SupplierDao implements SupplierImp{
     final String update = "update supplier set name=?, address=?, city=?, province=?, post_code=?, phone=?, contact=? where id=?";
     final String delete = "delete from supplier where id = ?";
     final String all = "select * from supplier";
-    final String find = "select * from supplier where name like ?";
+    final String find = "select * from supplier where id = ?";
     final String aFind = "select * from supplier where name = ?";
     
     public SupplierDao(){
@@ -130,12 +130,12 @@ public class SupplierDao implements SupplierImp{
     }
 
     @Override
-    public List<Supplier> find(String name) {
+    public List<Supplier> find(int id) {
         List<Supplier> lm = null;
         try {
             lm = new ArrayList<>();
             PreparedStatement stat = conn.prepareStatement(find);
-            stat.setString(1, "%" + name + "%");
+            stat.setInt(1, id);
             ResultSet res = stat.executeQuery();
             while(res.next()){
                 Supplier m = new Supplier();
