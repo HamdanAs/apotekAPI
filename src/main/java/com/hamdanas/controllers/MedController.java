@@ -8,6 +8,7 @@ package com.hamdanas.controllers;
 import com.google.gson.Gson;
 import com.hamdanas.dao.MedDao;
 import com.hamdanas.dao.interfaces.MedImp;
+import com.hamdanas.exception.NotFoundException;
 import com.hamdanas.models.Med;
 import com.hamdanas.utilities.CommonUtils;
 import com.hamdanas.utilities.Table;
@@ -64,7 +65,7 @@ public class MedController extends BaseController{
         return new Response(lm);
     }
 
-    public Response find(Request request){
+    public Response find(Request request) throws NotFoundException{
         int id = Integer.parseInt(request.params(":id"));
 
         return new Response(medImp.find(id));
@@ -80,7 +81,7 @@ public class MedController extends BaseController{
         return new Response(medToAdd);
     }
     
-    public Response update(final Gson jsonConverter, Request request, spark.Response res){
+    public Response update(final Gson jsonConverter, Request request, spark.Response res) throws NotFoundException{
         
         String payload = request.body();
         Med medToUpdate = jsonConverter.fromJson(payload, Med.class);
@@ -89,7 +90,7 @@ public class MedController extends BaseController{
         return new Response(medToUpdate);
     }
     
-    public Response deleteById(Request request, spark.Response response){
+    public Response deleteById(Request request, spark.Response response) throws NotFoundException{
 
         int id = Integer.parseInt(request.params(":id"));
         medImp.delete(id);
