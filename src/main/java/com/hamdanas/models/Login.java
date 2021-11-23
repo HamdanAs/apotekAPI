@@ -5,14 +5,20 @@
  */
 package com.hamdanas.models;
 
+import com.google.gson.annotations.Expose;
+
 /**
  *
  * @author Gawrgura
  */
 public class Login {
     private int id;
+
+    @Expose
     private String username;
+    @Expose
     private String password;
+    
     private int level;
 
     public int getId() {
