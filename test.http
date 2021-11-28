@@ -1,4 +1,4 @@
-GET http://localhost:4567/med HTTP/1.1
+GET http://localhost:4567/med?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.ewogICJ1c2VybmFtZSI6ICJhZG1pbiIsCiAgInRpbWVzdGFtcCI6IDE2MzgwNzQyODAxOTMKfQ.XnZNfcQWQTk1CcJdotA1ifgXOe5U8UK6Qq4PY4On094 HTTP/1.1
 
 ###
 GET http://localhost:4567/med/28 HTTP/1.1
@@ -46,3 +46,13 @@ POST http://localhost:4567/purchase/save HTTP/1.1
     "qty": 10,
     "purchase_id": 1
 }
+
+###
+POST http://localhost:4567/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "admin"
+}
+

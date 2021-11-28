@@ -36,14 +36,13 @@ import static spark.Spark.*;
  *
  * @author hamdan
  */
-public class SellReturnController extends BaseController{
+public class SellReturnController extends BaseController {
     private final TransactionReturnImp tImp;
     private final TransReturnDetailImp tdImp;
     private final InvoiceImp iImp;
     private final MedImp mImp;
-    
-    public SellReturnController(final Gson jsonConverter){
-        super(jsonConverter);
+
+    public SellReturnController(final Gson jsonConverter) {
         tImp = new TransactionReturnDao();
         tdImp = new TransReturnDetailDao();
         iImp = new InvoiceDao();
@@ -51,7 +50,7 @@ public class SellReturnController extends BaseController{
         initializeController(jsonConverter);
     }
 
-    public void initializeController(final Gson jsonConverter){
+    public void initializeController(final Gson jsonConverter) {
         post("/transactionreturn/save", (req, res) -> {
             ListResponse<Response> list = new ListResponse<>();
             List<Response> responseList = new ArrayList<>();
@@ -62,12 +61,12 @@ public class SellReturnController extends BaseController{
             list.setCode(200);
             list.setMessage("Pembelian baru telah ditambahkan!");
             list.setResult(responseList);
-            
+
             return list;
         }, CommonUtils.getJsonTransformer());
     }
-    
-    public Response saveReturn(final Gson jsonConverter, Request request, spark.Response res){
+
+    public Response saveReturn(final Gson jsonConverter, Request request, spark.Response res) {
         String payload = request.body();
         TransactionReturn p = jsonConverter.fromJson(payload, TransactionReturn.class);
         p.setTransactionCode(InvoiceCode.generate("PM", "transaction"));
@@ -77,7 +76,7 @@ public class SellReturnController extends BaseController{
         return new Response(p);
     }
 
-    public Response saveReturnDetails(final Gson jsonConverter, Request request, spark.Response res){
+    public Response saveReturnDetails(final Gson jsonConverter, Request request, spark.Response res) {
         String payload = request.body();
         TransactionReturnDetail p = jsonConverter.fromJson(payload, TransactionReturnDetail.class);
 
@@ -87,7 +86,7 @@ public class SellReturnController extends BaseController{
         return new Response(p);
     }
 
-    public Response insertInvoice(final Gson jsonConverter, Request request, spark.Response res){
+    public Response insertInvoice(final Gson jsonConverter, Request request, spark.Response res) {
         Invoice i = new Invoice();
         Response r = new Response();
 

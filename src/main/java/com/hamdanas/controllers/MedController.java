@@ -6,6 +6,7 @@
 package com.hamdanas.controllers;
 
 import com.google.gson.Gson;
+import com.hamdanas.controllers.base.Controller;
 import com.hamdanas.dao.MedDao;
 import com.hamdanas.dao.interfaces.MedImp;
 import com.hamdanas.exception.NotFoundException;
@@ -25,21 +26,20 @@ import static spark.Spark.*;
  *
  * @author hamdan
  */
-public class MedController extends BaseController{
+public class MedController extends BaseController {
     MedImp medImp;
     List<Med> lm;
     Table table;
     Gson gson;
-    
-    public MedController(final Gson jsonConverter){
-        super(jsonConverter);
+
+    public MedController(final Gson jsonConverter) {
         medImp = new MedDao();
         lm = medImp.all();
         gson = new Gson();
         initializeController(jsonConverter);
     }
 
-    public void initializeController(final Gson jsonConverter){
+    public void initializeController(final Gson jsonConverter) {
         get("/med", (req, res) -> {
             return getAll();
         }, CommonUtils.getJsonTransformer());
@@ -60,18 +60,18 @@ public class MedController extends BaseController{
             return deleteById(req, res);
         }, CommonUtils.getJsonTransformer());
     }
-    
-    public Response getAll(){
+
+    public Response getAll() {
         return new Response(lm);
     }
 
-    public Response find(Request request) throws NotFoundException{
+    public Response find(Request request) throws NotFoundException {
         int id = Integer.parseInt(request.params(":id"));
 
         return new Response(medImp.find(id));
     }
-    
-    public Response insert(final Gson jsonConverter, Request request, spark.Response res){
+
+    public Response insert(final Gson jsonConverter, Request request, spark.Response res) {
 
         String payload = request.body();
         Med medToAdd = jsonConverter.fromJson(payload, Med.class);
@@ -80,17 +80,17 @@ public class MedController extends BaseController{
         res.status(HttpStatus.CREATED_201);
         return new Response(medToAdd);
     }
-    
-    public Response update(final Gson jsonConverter, Request request, spark.Response res) throws NotFoundException{
-        
+
+    public Response update(final Gson jsonConverter, Request request, spark.Response res) throws NotFoundException {
+
         String payload = request.body();
         Med medToUpdate = jsonConverter.fromJson(payload, Med.class);
         medImp.update(medToUpdate);
 
         return new Response(medToUpdate);
     }
-    
-    public Response deleteById(Request request, spark.Response response) throws NotFoundException{
+
+    public Response deleteById(Request request, spark.Response response) throws NotFoundException {
 
         int id = Integer.parseInt(request.params(":id"));
         medImp.delete(id);

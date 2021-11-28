@@ -9,13 +9,12 @@ import com.hamdanas.utilities.Constants;
 
 import static spark.Spark.*;
 
-public class AuthController extends BaseController{
-    public AuthController(final Gson jsonConverter){
-        super(jsonConverter);
+public class AuthController extends BaseController {
+    public AuthController(final Gson jsonConverter) {
         initializeController(jsonConverter);
     }
 
-    public void initializeController(Gson jsonConverter){
+    public void initializeController(Gson jsonConverter) {
         post("/login", (req, res) -> {
             validateContentType(req);
 

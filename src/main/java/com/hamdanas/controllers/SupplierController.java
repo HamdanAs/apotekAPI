@@ -25,19 +25,18 @@ import spark.*;
  *
  * @author hamdan
  */
-public class SupplierController extends BaseController{
+public class SupplierController extends BaseController {
     SupplierImp supplierImp;
     List<Supplier> lm;
     Table table;
-    
-    public SupplierController(final Gson jsonConverter){
-        super(jsonConverter);
+
+    public SupplierController(final Gson jsonConverter) {
         supplierImp = new SupplierDao();
         lm = supplierImp.all();
         initializeController(jsonConverter);
     }
 
-    public void initializeController(final Gson jsonConverter){
+    public void initializeController(final Gson jsonConverter) {
         get("/supplier", (req, res) -> {
             return getAll();
         }, CommonUtils.getJsonTransformer());
@@ -58,18 +57,18 @@ public class SupplierController extends BaseController{
             return deleteById(req, res);
         }, CommonUtils.getJsonTransformer());
     }
-    
-    public Response getAll(){
+
+    public Response getAll() {
         return new Response(lm);
     }
 
-    public Response find(Request request) throws NotFoundException{
+    public Response find(Request request) throws NotFoundException {
         int id = Integer.parseInt(request.params(":id"));
 
         return new Response(supplierImp.find(id));
     }
-    
-    public Response insert(final Gson jsonConverter, Request request, spark.Response res){
+
+    public Response insert(final Gson jsonConverter, Request request, spark.Response res) {
 
         String payload = request.body();
         Supplier SupplierToAdd = jsonConverter.fromJson(payload, Supplier.class);
@@ -78,17 +77,17 @@ public class SupplierController extends BaseController{
         res.status(HttpStatus.CREATED_201);
         return new Response(SupplierToAdd);
     }
-    
-    public Response update(final Gson jsonConverter, Request request, spark.Response res) throws NotFoundException{
-        
+
+    public Response update(final Gson jsonConverter, Request request, spark.Response res) throws NotFoundException {
+
         String payload = request.body();
         Supplier SupplierToUpdate = jsonConverter.fromJson(payload, Supplier.class);
         supplierImp.update(SupplierToUpdate);
 
         return new Response(SupplierToUpdate);
     }
-    
-    public Response deleteById(Request request, spark.Response response) throws NotFoundException{
+
+    public Response deleteById(Request request, spark.Response response) throws NotFoundException {
 
         int id = Integer.parseInt(request.params(":id"));
         supplierImp.delete(id);

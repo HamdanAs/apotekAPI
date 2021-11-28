@@ -6,6 +6,7 @@
 package com.hamdanas.controllers;
 
 import com.google.gson.Gson;
+import com.hamdanas.controllers.base.Controller;
 import com.hamdanas.dao.InvoiceDao;
 import com.hamdanas.dao.MedDao;
 import com.hamdanas.dao.PurchDetailDao;
@@ -36,14 +37,13 @@ import com.hamdanas.response.Response;
  *
  * @author hamdan
  */
-public class BuyController extends BaseController{
+public class BuyController extends BaseController {
     private final PurchaseImp tImp;
     private final PurchDetailImp tdImp;
     private final MedImp mImp;
     private final InvoiceImp iImp;
-    
-    public BuyController(final Gson jsonConverter){
-        super(jsonConverter);
+
+    public BuyController(final Gson jsonConverter) {
         tImp = new PurchaseDao();
         tdImp = new PurchDetailDao();
         iImp = new InvoiceDao();
@@ -51,8 +51,8 @@ public class BuyController extends BaseController{
         initializeController(jsonConverter);
     }
 
-    public void initializeController(final Gson jsonConverter){
-        post("/purchase/save", (req, res) -> {
+    public void initializeController(final Gson jsonConverter) {
+        post("/save", (req, res) -> {
             ListResponse<Response> list = new ListResponse<>();
             List<Response> responseList = new ArrayList<>();
             responseList.add(savePurchase(jsonConverter, req, res));
@@ -62,13 +62,13 @@ public class BuyController extends BaseController{
             list.setCode(200);
             list.setMessage("Pembelian baru telah ditambahkan!");
             list.setResult(responseList);
-            
+
             return list;
         }, CommonUtils.getJsonTransformer());
     }
-    
-    public Response savePurchase(final Gson jsonConverter, Request request, spark.Response res){
-            
+
+    public Response savePurchase(final Gson jsonConverter, Request request, spark.Response res) {
+
         String payload = request.body();
         Purchase p = jsonConverter.fromJson(payload, Purchase.class);
         p.setPurchaseCode(InvoiceCode.generate("PM", "purchase"));
@@ -76,10 +76,10 @@ public class BuyController extends BaseController{
         tImp.insert(p);
 
         return new Response(p);
-            
+
     }
 
-    public Response savePurchaseDetails(final Gson jsonConverter, Request request, spark.Response res){
+    public Response savePurchaseDetails(final Gson jsonConverter, Request request, spark.Response res) {
         String payload = request.body();
         PurchaseDetail p = jsonConverter.fromJson(payload, PurchaseDetail.class);
 
@@ -89,7 +89,7 @@ public class BuyController extends BaseController{
         return new Response(p);
     }
 
-    public Response insertInvoice(final Gson jsonConverter, Request request, spark.Response res){
+    public Response insertInvoice(final Gson jsonConverter, Request request, spark.Response res) {
         Invoice i = new Invoice();
         Response r = new Response();
 
