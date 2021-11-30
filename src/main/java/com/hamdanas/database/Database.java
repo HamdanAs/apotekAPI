@@ -22,7 +22,7 @@ public class Database {
             MysqlDataSource sql = new MysqlDataSource();
             sql.setDatabaseName("apotek");
             sql.setUser("root");
-            sql.setPassword("root");
+            sql.setPassword("");
             
             try {
                 conn = sql.getConnection();
