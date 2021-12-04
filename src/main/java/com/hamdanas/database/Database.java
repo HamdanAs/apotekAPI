@@ -16,18 +16,19 @@ import javax.swing.JOptionPane;
  */
 public class Database {
     static Connection conn;
-    
-    public static Connection connection(){
-        if (conn == null){
+
+    public static Connection connection() {
+        if (conn == null) {
             MysqlDataSource sql = new MysqlDataSource();
             sql.setDatabaseName("apotek");
             sql.setUser("root");
-            sql.setPassword("");
-            
+            sql.setPassword("root");
+
             try {
                 conn = sql.getConnection();
-            } catch (SQLException e){
-                JOptionPane.showMessageDialog(null, "Koneksi ke database gagal! silahkan cek koneksi terlebih dahulu!", "Koneksi Gagal", JOptionPane.WARNING_MESSAGE);
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Koneksi ke database gagal! silahkan cek koneksi terlebih dahulu!",
+                        "Koneksi Gagal", JOptionPane.WARNING_MESSAGE);
                 System.exit(0);
                 return null;
             }

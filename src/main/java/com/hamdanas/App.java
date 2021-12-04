@@ -22,42 +22,45 @@ import static spark.Spark.*;
 
 public class App {
     public static void main(String[] args) {
-        options("/*", (request, response) -> {
+        // options("/*", (request, response) -> {
 
-            String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
-            if (accessControlRequestHeaders != null) {
-                response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
-            }
-    
-            String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
-            if (accessControlRequestMethod != null) {
-                response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
-            }
-    
-            return "OK";
-        });
+        // String accessControlRequestHeaders =
+        // request.headers("Access-Control-Request-Headers");
+        // if (accessControlRequestHeaders != null) {
+        // response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+        // }
+
+        // String accessControlRequestMethod =
+        // request.headers("Access-Control-Request-Method");
+        // if (accessControlRequestMethod != null) {
+        // response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+        // }
+
+        // return "OK";
+        // });
 
         // -- Check the authentication
-        before((Filter) (req, res) -> {
+        before((req, res) -> {
             validateLogin(CommonUtils.getJsonConvertor(), req);
 
+            System.out.println("API Endpoint accessed");
+        });
+
+        after((Filter) (req, res) -> {
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Methods", "GET,PUT,PATCH,POST,DELETE");
             res.header("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token");
             res.header("Access-Control-Allow-Credentials", "true");
 
-            System.out.println("API Endpoint accessed");
-        });
-
-        after((req, res) -> {
             res.type(Constants.STANDARD_RESPONSE_CONTENTTYPE);
         });
 
         // -- Handle the exceptions
         handleExceptions(CommonUtils.getJsonConvertor());
 
-        new AuthController(CommonUtils.getJsonConvertor());
         new MedController(CommonUtils.getJsonConvertor());
+        new AuthController(CommonUtils.getJsonConvertor());
+
     }
 
     private static void validateLogin(final Gson jsonConverter, Request req)

@@ -31,6 +31,7 @@ public class MedController extends BaseController {
     List<Med> lm;
     Table table;
     Gson gson;
+    int count = 0;
 
     public MedController(final Gson jsonConverter) {
         medImp = new MedDao();
@@ -40,7 +41,10 @@ public class MedController extends BaseController {
     }
 
     public void initializeController(final Gson jsonConverter) {
+
         get("/med", (req, res) -> {
+            System.out.println(++count);
+
             return getAll();
         }, CommonUtils.getJsonTransformer());
 
