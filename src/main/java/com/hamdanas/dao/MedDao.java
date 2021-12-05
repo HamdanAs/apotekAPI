@@ -20,10 +20,10 @@ import java.util.List;
  *
  * @author hamdan
  */
-public class MedDao implements MedImp{
-    
+public class MedDao implements MedImp {
+
     Connection conn;
-    
+
     final String insert = "insert into med values (null,?,?,?,?,?)";
     final String update = "update med set name=?, description=?, base_price=?, price=? where id=?";
     final String addStock = "update med set stock = stock + ? where id=?";
@@ -33,8 +33,8 @@ public class MedDao implements MedImp{
     final String find = "select * from med where name like ?";
     final String aFind = "select * from med where name = ?";
     final String idFind = "select * from med where id = ?";
-    
-    public MedDao(){
+
+    public MedDao() {
         conn = Database.connection();
     }
 
@@ -49,13 +49,13 @@ public class MedDao implements MedImp{
             stat.setInt(4, m.getPrice());
             stat.setInt(5, 0);
             stat.executeUpdate();
-            
-        } catch (SQLException e){
+
+        } catch (SQLException e) {
             System.err.println(e);
         } finally {
             try {
                 stat.close();
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 System.err.println(e);
             }
         }
@@ -72,50 +72,50 @@ public class MedDao implements MedImp{
             stat.setInt(4, m.getPrice());
             stat.setInt(5, m.getId());
             stat.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.err.println(e);
         } finally {
             try {
                 stat.close();
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 System.err.println(e);
             }
         }
     }
-    
+
     @Override
-    public void addStock(int amout, int id){
+    public void addStock(int amout, int id) {
         PreparedStatement stat = null;
         try {
             stat = conn.prepareStatement(addStock);
             stat.setInt(1, amout);
             stat.setInt(2, id);
             stat.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.err.println(e);
         } finally {
             try {
                 stat.close();
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 System.err.println(e);
             }
         }
     }
-    
+
     @Override
-    public void subStock(int amout, int id){
+    public void subStock(int amout, int id) {
         PreparedStatement stat = null;
         try {
             stat = conn.prepareStatement(subStock);
             stat.setInt(1, amout);
             stat.setInt(2, id);
             stat.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.err.println(e);
         } finally {
             try {
                 stat.close();
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 System.err.println(e);
             }
         }
@@ -128,12 +128,12 @@ public class MedDao implements MedImp{
             stat = conn.prepareStatement(delete);
             stat.setInt(1, id);
             stat.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.err.println(e);
         } finally {
             try {
                 stat.close();
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 System.err.println(e);
             }
         }
@@ -146,7 +146,7 @@ public class MedDao implements MedImp{
             lm = new ArrayList<>();
             Statement stat = conn.createStatement();
             ResultSet res = stat.executeQuery(all);
-            while(res.next()){
+            while (res.next()) {
                 Med m = new Med();
                 m.setId(res.getInt(1));
                 m.setName(res.getString(2));
@@ -156,10 +156,10 @@ public class MedDao implements MedImp{
                 m.setStock(res.getInt(6));
                 lm.add(m);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.err.println(e);
         }
-        
+
         return lm;
     }
 
@@ -171,7 +171,7 @@ public class MedDao implements MedImp{
             PreparedStatement stat = conn.prepareStatement(find);
             stat.setString(1, "%" + name + "%");
             ResultSet res = stat.executeQuery();
-            while(res.next()){
+            while (res.next()) {
                 Med m = new Med();
                 m.setId(res.getInt(1));
                 m.setName(res.getString(2));
@@ -181,13 +181,13 @@ public class MedDao implements MedImp{
                 m.setStock(res.getInt(6));
                 lm.add(m);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.err.println(e);
         }
-        
+
         return lm;
     }
-    
+
     @Override
     public List<Med> actualFind(String name) {
         List<Med> lm = null;
@@ -196,7 +196,7 @@ public class MedDao implements MedImp{
             PreparedStatement stat = conn.prepareStatement(aFind);
             stat.setString(1, name);
             ResultSet res = stat.executeQuery();
-            while(res.next()){
+            while (res.next()) {
                 Med m = new Med();
                 m.setId(res.getInt(1));
                 m.setName(res.getString(2));
@@ -206,10 +206,10 @@ public class MedDao implements MedImp{
                 m.setStock(res.getInt(6));
                 lm.add(m);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.err.println(e);
         }
-        
+
         return lm;
     }
 
@@ -221,7 +221,7 @@ public class MedDao implements MedImp{
             PreparedStatement stat = conn.prepareStatement(idFind);
             stat.setInt(1, id);
             ResultSet res = stat.executeQuery();
-            while(res.next()){
+            while (res.next()) {
                 Med m = new Med();
                 m.setId(res.getInt(1));
                 m.setName(res.getString(2));
@@ -231,11 +231,11 @@ public class MedDao implements MedImp{
                 m.setStock(res.getInt(6));
                 lm.add(m);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.err.println(e);
         }
-        
+
         return lm;
     }
-    
+
 }

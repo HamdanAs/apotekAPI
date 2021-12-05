@@ -13,7 +13,7 @@ import com.google.gson.annotations.SerializedName;
  * @author hamdan
  */
 
- @SuppressWarnings("serial")
+@SuppressWarnings("serial")
 public class Med {
 
     @Expose
@@ -29,7 +29,7 @@ public class Med {
     private String desctription;
 
     @Expose
-    @SerializedName("base_price")
+    @SerializedName("basePrice")
     private int basePrice;
 
     @Expose

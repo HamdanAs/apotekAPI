@@ -1,4 +1,4 @@
-GET http://localhost:4567/med?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.ewogICJ1c2VybmFtZSI6ICJhZG1pbiIsCiAgInRpbWVzdGFtcCI6IDE2Mzg1ODU4ODk0NDYKfQ.pZi6OeIWp8tPvcAg-GpsnFaYS2xwwci93lQqTv9ndCg HTTP/1.1
+GET http://localhost:4567/med?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.ewogICJ1c2VybmFtZSI6ICJhZG1pbiIsCiAgInRpbWVzdGFtcCI6IDE2Mzg2NzI2NzkyNzQKfQ.dLKyg4WLonYNKfPfHOsdrTlbP14J8tu34Y17lbRwI9k HTTP/1.1
 
 ###
 GET http://localhost:4567/med/44?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.ewogICJ1c2VybmFtZSI6ICJhZG1pbiIsCiAgInRpbWVzdGFtcCI6IDE2Mzg1ODU4ODk0NDYKfQ.pZi6OeIWp8tPvcAg-GpsnFaYS2xwwci93lQqTv9ndCg HTTP/1.1
@@ -9,9 +9,9 @@ POST http://localhost:4567/med?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.ewogIC
 # Content-Type: "application/json"
 {
     "id": 0,
-    "name": "Obat baru pisan nn",
+    "name": "Obat baru pisan nnnnnn",
     "description": "obat panas baru baru",
-    "base_price": 4000,
+    "basePrice": 4000,
     "price": 5000,
     "stock": 0
 }

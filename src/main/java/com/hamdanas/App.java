@@ -22,22 +22,20 @@ import static spark.Spark.*;
 
 public class App {
     public static void main(String[] args) {
-        // options("/*", (request, response) -> {
+        options("/*", (request, response) -> {
 
-        // String accessControlRequestHeaders =
-        // request.headers("Access-Control-Request-Headers");
-        // if (accessControlRequestHeaders != null) {
-        // response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
-        // }
+            String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+            if (accessControlRequestHeaders != null) {
+                response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+            }
 
-        // String accessControlRequestMethod =
-        // request.headers("Access-Control-Request-Method");
-        // if (accessControlRequestMethod != null) {
-        // response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
-        // }
+            String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
+            if (accessControlRequestMethod != null) {
+                response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+            }
 
-        // return "OK";
-        // });
+            return "OK";
+        });
 
         // -- Check the authentication
         before((req, res) -> {
@@ -58,8 +56,11 @@ public class App {
         // -- Handle the exceptions
         handleExceptions(CommonUtils.getJsonConvertor());
 
-        new MedController(CommonUtils.getJsonConvertor());
         new AuthController(CommonUtils.getJsonConvertor());
+
+        MedController medController = new MedController(CommonUtils.getJsonConvertor());
+        Thread medThread = new Thread(medController);
+        medThread.start();
 
     }
 

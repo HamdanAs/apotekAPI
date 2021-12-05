@@ -26,25 +26,27 @@ import static spark.Spark.*;
  *
  * @author hamdan
  */
-public class MedController extends BaseController {
+public class MedController extends BaseController implements Runnable {
     MedImp medImp;
     List<Med> lm;
     Table table;
     Gson gson;
-    int count = 0;
+    Gson jsonConverter;
 
     public MedController(final Gson jsonConverter) {
         medImp = new MedDao();
-        lm = medImp.all();
         gson = new Gson();
+        this.jsonConverter = jsonConverter;
+    }
+
+    @Override
+    public void run() {
         initializeController(jsonConverter);
     }
 
     public void initializeController(final Gson jsonConverter) {
 
         get("/med", (req, res) -> {
-            System.out.println(++count);
-
             return getAll();
         }, CommonUtils.getJsonTransformer());
 
@@ -66,6 +68,8 @@ public class MedController extends BaseController {
     }
 
     public Response getAll() {
+        lm = medImp.all();
+
         return new Response(lm);
     }
 
